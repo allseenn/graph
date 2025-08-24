@@ -11,5 +11,4 @@
     font-size: 2em;
 }
 </style>
-
 <div class="node">d</div>
