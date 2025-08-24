@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js vs D3.js Comparison</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #fff;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .comparison {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .card {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        .card h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fdbb2d;
+        }
+        .visualization {
+            height: 300px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        .features {
+            margin-top: 20px;
+        }
+        .features h3 {
+            margin-bottom: 10px;
+            color: #fdbb2d;
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+            position: relative;
+        }
+        li:before {
+            content: "•";
+            color: #fdbb2d;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        .use-case {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        .use-case h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fdbb2d;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        button {
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #fdbb2d, #b21f1f);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Three.js vs D3.js</h1>
+            <p>Сравнение двух мощных библиотек для визуализации в JavaScript</p>
+        </header>
+
+        <div class="comparison">
+            <div class="card">
+                <h2>Three.js</h2>
+                <div id="threejs-demo" class="visualization"></div>
+                <div class="features">
+                    <h3>Особенности:</h3>
+                    <ul>
+                        <li>3D-графика и анимации</li>
+                        <li>Поддержка WebGL</li>
+                        <li>Текстуры, материалы, освещение</li>
+                        <li>Камеры и перспектива</li>
+                        <li>Идеален для игр и 3D-визуализаций</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>D3.js</h2>
+                <div id="d3js-demo" class="visualization"></div>
+                <div class="features">
+                    <h3>Особенности:</h3>
+                    <ul>
+                        <li>Визуализация данных</li>
+                        <li>Работа с SVG</li>
+                        <li>Интерактивные диаграммы</li>
+                        <li>Привязка данных к DOM</li>
+                        <li>Идеален для дашбордов и анализа данных</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="use-case">
+            <h2>Когда что использовать?</h2>
+            <p><strong>Three.js</strong> выбирайте, когда вам нужна 3D-графика: игры, интерактивные 3D-модели, архитектурная визуализация, AR/VR приложения.</p>
+            <p><strong>D3.js</strong> выбирайте для визуализации данных: интерактивные диаграммы, графики, карты, дашборды и отчеты.</p>
+        </div>
+
+        <div class="buttons">
+            <button onclick="window.open('https://threejs.org/', '_blank')">Документация Three.js</button>
+            <button onclick="window.open('https://d3js.org/', '_blank')">Документация D3.js</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>Сравнительная демонстрация возможностей Three.js и D3.js</p>
+    </footer>
+
+    <script>
+        // Three.js демонстрация
+        function initThreeJS() {
+            const container = document.getElementById('threejs-demo');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+
+            // Создаем сцену, камеру и рендерер
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(width, height);
+            container.appendChild(renderer.domElement);
+
+            // Добавляем объекты на сцену
+            const geometry = new THREE.BoxGeometry();
+            const material = new THREE.MeshPhongMaterial({ color: 0xfdbb2d });
+            const cube = new THREE.Mesh(geometry, material);
+            scene.add(cube);
+
+            // Добавляем освещение
+            const ambientLight = new THREE.AmbientLight(0x404040);
+            scene.add(ambientLight);
+            const light = new THREE.DirectionalLight(0xffffff, 1);
+            light.position.set(1, 1, 1);
+            scene.add(light);
+
+            camera.position.z = 3;
+
+            // Анимация
+            function animate() {
+                requestAnimationFrame(animate);
+                cube.rotation.x += 0.01;
+                cube.rotation.y += 0.01;
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Обработка изменения размера
+            window.addEventListener('resize', () => {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            });
+        }
+
+        // D3.js демонстрация
+        function initD3JS() {
+            const container = document.getElementById('d3js-demo');
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            const margin = { top: 20, right: 20, bottom: 30, left: 40 };
+
+            // Создаем SVG элемент
+            const svg = d3.select(container)
+                .append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            // Генерируем случайные данные
+            const data = d3.range(20).map(() => Math.random() * 100);
+
+            // Создаем шкалы
+            const x = d3.scaleBand()
+                .domain(d3.range(data.length))
+                .range([0, width - margin.left - margin.right])
+                .padding(0.1);
+
+            const y = d3.scaleLinear()
+                .domain([0, d3.max(data)])
+                .range([height - margin.top - margin.bottom, 0]);
+
+            // Добавляем столбцы
+            svg.selectAll("rect")
+                .data(data)
+                .enter()
+                .append("rect")
+                .attr("x", (d, i) => x(i))
+                .attr("y", d => y(d))
+                .attr("width", x.bandwidth())
+                .attr("height", d => height - margin.top - margin.bottom - y(d))
+                .attr("fill", "#fdbb2d");
+
+            // Добавляем оси
+            const xAxis = d3.axisBottom(x).tickValues([]);
+            const yAxis = d3.axisLeft(y);
+
+            svg.append("g")
+                .attr("transform", `translate(0,${height - margin.top - margin.bottom})`)
+                .call(xAxis);
+
+            svg.append("g")
+                .call(yAxis);
+        }
+
+        // Инициализация демонстраций после загрузки страницы
+        window.onload = function() {
+            initThreeJS();
+            initD3JS();
+        };
+    </script>
+</body>
+</html>
