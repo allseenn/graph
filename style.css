@@ -1,12 +1,12 @@
 .container{
     display: flex;
     position: relative;
-    width: 400px;
-    height: 400px
+    width: 250px;
+    height: 250px
 }
 .graph{
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
     background-color: rgba(243, 181, 88, 0.863);
     border-radius: 50%;
     display: flex;
@@ -16,21 +16,21 @@
 }
 #g1{
     position: absolute;
-    top: 150px;
+    top: 100px;
     left: 0px;
 }
 #g2{
     position: absolute;
     top: 0;
-    left: 150px;
+    left: 100px;
 }
 #g3{
     position: absolute;
     bottom: 0px;
-    left: 150px;
+    left: 100px;
 }
 #g4{
     position: absolute;
-    top: 150px;
+    top: 100px;
     right: 0;
 }
