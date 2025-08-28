@@ -82,21 +82,23 @@
     </tr>
 </table>
 
-### Списки смежности
+### Список смежности
+
+Список смежности (adjacency list) представляет собою список состоящий из списков:
+
+1. Список вершин
+2. Список ребер
+3. Списки вершин для каждого ребра
+4. Списки инцидентных ребер для каждой вершины
+
+### Построение списка смежности
 
 <img src="img/04.svg" alt="text">
 
 На рисунке представлен граф социальных связей (дружба) между одноклассниками. Группа слева и справа не имеют связей, но они все-равно являются одноклассниками, следовательно одним графом.
 
-Необходимые списки
-
-1. Список вершин friendsList
-2. Список ребер
-3. Списки вершин для каждого ребра
-4. Списки инцидентных ребер для каждой вершины
-
 ```js
-const friendsList = {
+const classMates = {
     1: {
         id: 1,
         name: 'Maria',
@@ -129,8 +131,47 @@ const friendsList = {
     }
 }
     
-const kate = friendsList[4]
-const kateFriends = kate.friends.map(friendId => friendsList[friendId])
+const kate = classMates[4] // {id: 4, name: 'Kate', gender: 'female', friends: [1, 2, 5]}
+const kateFriends = kate.friends.map(friendId => classMates[friendId]) // [{id: 1, name: 'Maria', gender: 'female', friends: [4, 2, 3]}, {id: 2, name: 'Vova', gender: 'male', friends: [1, 3, 4]}, {id: 5, name: 'Andrey', gender: 'male', friends: [4, 3]}]
+```
+
+## Универсальный класс списка смежности
+
+```js
+class Graph {
+    constructor(adjList) {
+        this.adjList = adjList || {};
+    }
+    getList() { // вывод всего смежного списка (всех вершин и ребер)
+        return this.adjList;
+    }
+    addVertex(vertex) { // добавление вершины
+        const vertexId = vertex.id || Object.keys(this.getList()).length + 1;
+        this.adjList[vertexId] = {id: vertexId, ...vertex,};
+    }
+    addEdge(firstVertexId, secondVertexId) { // добавление ребра (вершина1, вершина2)
+        if(this.adjList[firstVertexId] && this.adjList[secondVertexId]) { // если обе вершины существуют
+        // то, проверяем существует ли уже ребро между ними
+            if(!this.adjList[firstVertexId].friends.includes(secondVertexId) 
+                && !this.adjList[secondVertexId].friends.includes(firstVertexId)){
+                // добавляем в массив вершины1 индекс вершины2
+                this.adjList[firstVertexId].friends.push(secondVertexId); 
+                // добавляем в массив вершины2 индекс вершины1
+                this.adjList[secondVertexId].friends.push(firstVertexId);
+                }
+        }
+    }
+}
+
+
+const classMatesGraph = new Graph(classMates); // передаем при создании объекта уже готовый список
+// добавляем новую вершину
+classMatesGraph.addVertex({name: 'Ivan', gender: 'male', friends: [1, 2, 3, 4, 5]});
+// добавляем заведомо существующее ребро, которое не будет добавлено
+classMatesGraph.addEdge(1, 2);
+// добавляем новое ребро
+classMatesGraph.addEdge(1, 5);
+console.log(classMatesGraph.getList());
 ```
 
 ## Ссылки
